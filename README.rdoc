@@ -29,6 +29,11 @@ See the class definitions for documentation on specific methods and operations.
   # Log into the Cloud Servers system
   cs = CloudServers::Connection.new(:username => USERNAME, :api_key => API_KEY)	
 
+  # or if you want to Log into the UK CloudServers
+  # cs = CloudServers::Connection.new(:username => USERNAME, :api_key => API_KEY,
+  #                   :authurl => "https://lon.auth.api.rackspacecloud.com/v1.0")	
+  
+
   # Get a listing of all current servers
   >> cs.servers
   => [{:name=>"RenamedRubyTest", :id=>110917}]

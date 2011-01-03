@@ -8,10 +8,12 @@ module CloudServers
     #
     # Should probably never be called directly.
     def initialize(connection)
-      path = '/v1.0'
+      parsed_authurl = URI.parse(connection.authurl)
+      path = parsed_authurl.path      
       hdrhash = { "X-Auth-User" => connection.authuser, "X-Auth-Key" => connection.authkey }
       begin
-        server = Net::HTTP::Proxy(connection.proxy_host, connection.proxy_port).new('auth.api.rackspacecloud.com',443)
+        server             = get_server(connection, parsed_authurl)
+        
         server.use_ssl = true
         server.verify_mode = OpenSSL::SSL::VERIFY_NONE
         server.start
@@ -34,5 +36,12 @@ module CloudServers
       end
       server.finish
     end
+
+    private
+
+    def get_server(connection, parsed_authurl)
+      Net::HTTP::Proxy(connection.proxy_host, connection.proxy_port).new(parsed_authurl.host,parsed_authurl.port)
+    end
+    
   end
 end

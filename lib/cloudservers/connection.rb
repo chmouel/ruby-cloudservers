@@ -3,6 +3,7 @@ module CloudServers
     
     attr_reader   :authuser
     attr_reader   :authkey
+    attr_reader   :authurl
     attr_accessor :authtoken
     attr_accessor :authok
     attr_accessor :svrmgmthost
@@ -26,6 +27,7 @@ module CloudServers
     #
     #   :username - Your Rackspace Cloud username *required*
     #   :api_key - Your Rackspace Cloud API key *required*
+    #   :authurl - The authentication server URL to auth against (default: https://auth.api.rackspacecloud.com/v1.0)
     #   :retry_auth - Whether to retry if your auth token expires (defaults to true)
     #   :proxy_host - If you need to connect through a proxy, supply the hostname here
     #   :proxy_port - If you need to connect through a proxy, supply the port here
@@ -34,6 +36,7 @@ module CloudServers
     def initialize(options = {:retry_auth => true}) 
       @authuser = options[:username] || (raise Exception::Authentication, "Must supply a :username")
       @authkey = options[:api_key] || (raise Exception::Authentication, "Must supply an :api_key")
+      @authurl = options[:authurl] || 'https://auth.api.rackspacecloud.com/v1.0'
       @retry_auth = options[:retry_auth]
       @proxy_host = options[:proxy_host]
       @proxy_port = options[:proxy_port]
